@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Flowers.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Flowers"
+    xmlns:views="clr-namespace:Flowers.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Flowers">
+    
+    <ShellContent
+        Title="Вход"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" 
+        Shell.FlyoutItemIsVisible="False"/>
+
+    <FlyoutItem Title="Главная" Route="FlyoutMain">
+        <Tab Title="Готовые букеты" Route="Dashboard">
+            <ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" />
+        </Tab>
+        <Tab Title="Сборка букета" Route="Assembly">
+            <ShellContent ContentTemplate="{DataTemplate views:AssemblyPage}" />
+        </Tab>
+        <Tab Title="Корзина" Route="Cart">
+            <ShellContent ContentTemplate="{DataTemplate views:CartPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Профиль" Route="ProfilePage">
+        <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:ProfilePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Административная панель" Route="AdminPanel" Shell.FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate views:AdminPanelPage}" />
+    </FlyoutItem>
+</Shell>

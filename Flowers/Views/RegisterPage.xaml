@@ -1,0 +1,26 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Flowers.ViewModel"
+             x:Class="Flowers.Views.RegisterPage"
+             Shell.NavBarIsVisible="False"
+             Title="Регистрация">
+
+    <StackLayout Padding="20" VerticalOptions="Center" Spacing="15">
+        <Label Text="Регистрация" FontSize="Large" HorizontalOptions="Center" Margin="25"/>
+
+        <Grid ColumnDefinitions="Auto,*">
+            <Image Source="person.png" Grid.Column="0" WidthRequest="24" HeightRequest="24" Margin="5"/>
+            <Entry Placeholder="Имя пользователя" Text="{Binding Username}" MaximumWidthRequest="280" FontSize="17" Grid.Column="1"/>
+        </Grid>
+        <Grid ColumnDefinitions="Auto,*">
+            <Image Source="password.png" Grid.Column="0" WidthRequest="24" HeightRequest="24" Margin="5"/>
+            <Entry Placeholder="Пароль" Text="{Binding Password}" IsPassword="True" MaximumWidthRequest="280" FontSize="17" Grid.Column="1"/>
+        </Grid>
+        <Grid ColumnDefinitions="Auto,*">
+            <Image Source="phone.png" Grid.Column="0" WidthRequest="24" HeightRequest="24" Margin="5"/>
+            <Entry Placeholder="Телефон для связи" Text="{Binding Phone}" MaximumWidthRequest="280" FontSize="17" Grid.Column="1"/>
+        </Grid>
+
+        <Button Text="Зарегистрироваться" Command="{Binding RegisterCommand}" MaximumWidthRequest="230"/>
+    </StackLayout>
+</ContentPage>

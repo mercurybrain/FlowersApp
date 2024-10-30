@@ -1,0 +1,93 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Flowers.Views.CartPage"
+             xmlns:local="clr-namespace:Flowers.Views"
+             Title="Корзина">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:FilterStringConverter x:Key="FilterStringConverter" />
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="HeightRequest" Value="50" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Обычная разметка для отображения корзины -->
+        <StackLayout Padding="10" BackgroundColor="#F5F5F5" Grid.Row="0"
+                     >
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding IsCartEmpty}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+
+                    <CollectionView ItemsSource="{Binding CartItems}" Margin="0,10" BackgroundColor="White" 
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="#E0E0E0" CornerRadius="10" BackgroundColor="White">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding SelectedBouquet.Icon, Converter={StaticResource ByteArrayToImageConverter}}"
+                                        WidthRequest="50" HeightRequest="50" Aspect="AspectFill" />
+                                <StackLayout>
+                                    <Label Text="{Binding SelectedBouquet.Name, Converter={StaticResource FilterStringConverter}}" 
+                                        FontAttributes="Bold" HorizontalOptions="StartAndExpand"/>
+                                    <Label Text="{Binding Quantity, StringFormat=' Кол-во: {0} шт.'}" 
+                                        HorizontalOptions="Center" />
+                                </StackLayout>
+                                <Label Text="{Binding SelectedBouquet.Price, StringFormat=': {0:C}'}" 
+                                       HorizontalOptions="EndAndExpand" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="{Binding TotalPrice, StringFormat='Итого: {0:C}'}" 
+                   FontSize="20" FontAttributes="Bold" 
+                   HorizontalOptions="Center" Margin="0,10"/>
+
+            <Label Text="Адрес доставки" FontSize="18" FontAttributes="Bold" Margin="0,10"/>
+            <Entry Placeholder="Город, улица, дом" Text="{Binding CityStreetHouse}" />
+            <Entry Placeholder="Подъезд, этаж" Text="{Binding Floor}" />
+            <Entry Placeholder="Квартира" Text="{Binding Apartment}" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" Grid.Row="1" Padding="10" BackgroundColor="White">
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding IsCartEmpty}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </StackLayout.Triggers>
+            <Button Text="Очистить корзину" Command="{Binding ClearCartCommand}" 
+            Style="{StaticResource OutlinedButtonStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,5,0"/>
+            <Button Text="Оформить заказ" Command="{Binding ConfirmOrderCommand}" 
+            HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+        <!-- Перекрывающая разметка для пустой корзины -->
+        <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0"
+                     Spacing="20" BackgroundColor="White" Opacity="0.9" IsVisible="{Binding IsCartEmpty}">
+            <Image Source="sad_flower.png" WidthRequest="100" HeightRequest="100" Opacity="0.5"/>
+            <Label Text="Корзина пуста." 
+                   FontSize="18" HorizontalOptions="Center" TextColor="Gray" HorizontalTextAlignment="Center"/>
+            <Button Text="Перейти к выбору букетов" Command="{Binding GoToDashboardCommand}" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

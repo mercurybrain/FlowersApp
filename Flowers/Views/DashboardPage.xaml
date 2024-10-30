@@ -1,0 +1,44 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:views="clr-namespace:Flowers.Views"
+             xmlns:vm="clr-namespace:Flowers.ViewModel"
+             x:Class="Flowers.Views.DashboardPage"
+             Title="Готовые букеты">
+    <StackLayout>
+        <!-- Общий хедер -->
+        <views:HeaderView BindingContext="{Binding}" />
+
+        <ScrollView >
+            <!-- CollectionView для отображения букетов -->
+            <CollectionView ItemsSource="{Binding Bouquets}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Margin="5">
+                            <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageConverter}}" WidthRequest="50" HeightRequest="50" />
+                            <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
+                            <Label Text="{Binding Price, StringFormat='Цена: {0:C}'}" FontSize="Small" />
+
+                            <!-- Отображение цветов и их количества в букете -->
+                            <CollectionView ItemsSource="{Binding Flowers}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Orientation="Horizontal" Padding="5">
+                                            <Label Text="{Binding Key}" FontSize="Small" />
+                                            <!-- Количество цветов (значение словаря) -->
+                                            <Label Text="{Binding Value, StringFormat=': {0} шт.'}" FontSize="Small" />
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Button Text="Добавить в корзину"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DashboardViewModel}}, Path=AddToCartCommand}"
+                            CommandParameter="{Binding .}"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>
