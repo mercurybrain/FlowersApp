@@ -15,6 +15,12 @@
                 <ResourceDictionary>
                     <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter" />
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <converters:MultiplyMultiConverter x:Key="MultiplyMultiConverter" />
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <converters:DateTimeToTimeSpanConverter x:Key="DateTimeToTimeSpanConverter" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="OutlinedButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent" />

@@ -1,0 +1,63 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Flowers.Views.OrderDetailPage"
+             Title="Изменение статуса заказа"
+             BackgroundColor="#F2F3F7">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <!-- Информация о заказе -->
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Информация о заказе"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#37474F" />
+                    <Label Text="{Binding Order.OrderDate, StringFormat='Дата: {0:dd MMM yyyy HH:mm}'}"
+                           FontSize="16"
+                           TextColor="#37474F" />
+                    <Label Text="{Binding Order.Username, StringFormat='Заказчик: {0}'}"
+                           FontSize="16"
+                           TextColor="#37474F" />
+                    <Label Text="{Binding Order.DeliveryAddress, StringFormat='Адрес: {0}'}"
+                           FontSize="16"
+                           TextColor="#37474F" />
+                    <Label Text="{Binding Order.TotalPrice, StringFormat='Сумма: {0:C}'}"
+                           FontSize="16"
+                           TextColor="#4CAF50" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Выбор статуса -->
+            <Frame CornerRadius="10" Padding="15" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Изменить статус"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#37474F" />
+                    <Picker ItemsSource="{Binding StatusOptions}"
+                            SelectedItem="{Binding SelectedStatus}"
+                            Title="Выберите статус"
+                            FontSize="16"
+                            TextColor="#37474F" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Кнопки управления -->
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Сохранить"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontAttributes="Bold" 
+                        HorizontalOptions="FillAndExpand" />
+                <Button Text="Отмена"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="#FF5252"
+                        TextColor="White"
+                        FontAttributes="Bold" 
+                        HorizontalOptions="FillAndExpand" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

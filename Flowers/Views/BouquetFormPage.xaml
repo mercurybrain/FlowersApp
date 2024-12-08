@@ -1,0 +1,88 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Flowers.Views.BouquetFormPage"
+             Title="{Binding PageTitle}"
+             BackgroundColor="#F2F3F7">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame Padding="0" HasShadow="True" CornerRadius="15">
+                <VerticalStackLayout>
+                    <!-- Изображение букета -->
+                    <Image Source="{Binding Bouquet.Icon, Converter={StaticResource ByteArrayToImageConverter}}"
+                       Aspect="AspectFill"
+                       HeightRequest="200" />
+                </VerticalStackLayout>
+            </Frame>
+            <!-- Кнопка выбора изображения -->
+            <Button Text="Выбрать изображение"
+                Command="{Binding SelectImageCommand}"
+                BackgroundColor="#FF6F00"
+                TextColor="White"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <!-- Название букета -->
+            <Entry Placeholder="Название букета"
+                   Text="{Binding Bouquet.Name}"
+                   FontSize="18"
+                   TextColor="#37474F" />
+
+            <!-- Цена букета -->
+            <Entry Placeholder="Цена (руб.)"
+                   Text="{Binding Bouquet.Price}"
+                   FontSize="18"
+                   Keyboard="Numeric"
+                   TextColor="#37474F" />
+
+            <!-- Состав букета -->
+            <Label Text="Состав букета" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   TextColor="#78909C" />
+            <CollectionView ItemsSource="{Binding EditableFlowers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout Padding="5" Spacing="10">
+                            <Entry Placeholder="Название цветка"
+                                   Text="{Binding Key}" 
+                                   FontSize="14"
+                                   TextColor="#37474F" />
+                            <Entry Placeholder="Количество"
+                                   Text="{Binding Value}" 
+                                   FontSize="14"
+                                   Keyboard="Numeric"
+                                   TextColor="#37474F" />
+                            <Button Text="Удалить" 
+                                    Command="{Binding BindingContext.RemoveFlowerCommand, Source={x:Reference BouquetFormPage}}" 
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#FF5252" 
+                                    TextColor="White" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Добавить цветок" 
+                    Command="{Binding AddFlowerCommand}"
+                    BackgroundColor="#4CAF50" 
+                    TextColor="White" />
+
+            <!-- Кнопки управления -->
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Сохранить"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontAttributes="Bold" 
+                        HorizontalOptions="FillAndExpand" />
+                <Button Text="Отмена"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="#FF5252"
+                        TextColor="White"
+                        FontAttributes="Bold" 
+                        HorizontalOptions="FillAndExpand" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

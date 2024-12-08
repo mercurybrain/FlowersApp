@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Flowers.Services;
+using SQLite;
 
 namespace Flowers.Models
 {
@@ -16,5 +17,7 @@ namespace Flowers.Models
         public string Phone { get; set; }
 
         public string AddressDefault { get; set; }
+
+        public int Access { get; set; } = 777;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Flowers.Services;
 using Flowers.ViewModel;
 using Flowers.Views;
+using System.Diagnostics;
 
 namespace Flowers
 {
@@ -12,6 +13,17 @@ namespace Flowers
             
 
             MainPage = new AppShell();
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                Trace.WriteLine($"Unhandled exception: {e.ExceptionObject}");
+            };
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+            {
+                Console.WriteLine($"Unobserved task exception: {e.Exception.Message}");
+                e.SetObserved();
+            };
         }
     }
 }
+

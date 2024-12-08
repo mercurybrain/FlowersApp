@@ -11,9 +11,9 @@ namespace Flowers.Converters
         {
             if (value is bool isExpanded)
             {
-                return isExpanded ? "arrow_down.png" : "arrow_right.png"; // замените на ваши изображения стрелок
+                return isExpanded ? "arrow_down.png" : "arrow_right.png";
             }
-            return "arrow_right.png"; // значение по умолчанию
+            return "arrow_right.png";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

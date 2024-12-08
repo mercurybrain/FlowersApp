@@ -6,6 +6,7 @@ using Flowers.Models;
 using Flowers.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +26,6 @@ namespace Flowers.ViewModel
         [ObservableProperty]
         private ObservableCollection<FlowerSelection> selectedFlowers; // Выбранные цветы для букета
 
-        private int bouquetCounter = 1;
 
         public AssemblyViewModel(DatabaseService databaseService, ISharingService sharedService)
         {
@@ -65,37 +65,48 @@ namespace Flowers.ViewModel
         private void OnQuantityChanged(object sender, System.EventArgs e)
         {
             OnPropertyChanged(nameof(TotalPrice)); // Обновляем общую стоимость при каждом изменении количества
+            OnPropertyChanged(nameof(StoreId));
         }
 
         // Расчет общей стоимости букета
         public float TotalPrice => SelectedFlowers.Sum(item => item.Flower.Price * item.Quantity);
+        private int StoreId => SelectedFlowers.FirstOrDefault().Flower.StoreId;
 
         // Команда для добавления собранного букета в корзину через _sharedService
         [RelayCommand]
-        private void AddBouquetToCart()
+        private async void AddBouquetToCart()
         {
             if (SelectedFlowers.Any())
             {
                 var flowerDict = SelectedFlowers.ToDictionary(item => item.Flower.Name, item => item.Quantity);
 
-                var uniqueBouquetName = $"Собранный букет{bouquetCounter++}";
+                var allAssembled = await _databaseService.GetAllAssembled();
+                int counter = allAssembled.Count;
 
-                var newBouquet = new Bouquet
+                var uniqueBouquetName = $"Собранный букет {counter + 1}";
+
+                var newBouquet = new AssembledBouquets
                 {
                     Name = uniqueBouquetName,
                     Price = TotalPrice,
                     Flowers = flowerDict,
-                    Icon = Array.Empty<byte>()
+                    Icon = Array.Empty<byte>(),
+                    StoreId = StoreId,
                 };
 
-                // Добавляем собранный букет в общий сервис
-                _sharedService.Add<CartItem>("NewCartItem", new CartItem(newBouquet, 1));
+                await _databaseService.AddAssembledAsync(newBouquet);
 
-                // Очищаем сборочный список после добавления
+                Trace.WriteLine("Собранный букет сохранён: " + newBouquet.Name);
+
+                // Добавляем собранный букет в корзину
+                _sharedService.Add<CartAssembled>("NewCartItem", new CartAssembled(newBouquet, 1));
+
                 SelectedFlowers.Clear();
-                OnPropertyChanged(nameof(TotalPrice)); // Обновляем общую стоимость после очистки
+                OnPropertyChanged(nameof(TotalPrice));
             }
         }
+
+
     }
 
     // Вспомогательный класс для хранения цветка и его количества в букете

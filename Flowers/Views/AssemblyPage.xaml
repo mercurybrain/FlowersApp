@@ -3,41 +3,62 @@
              x:Class="Flowers.Views.AssemblyPage"
              xmlns:views="clr-namespace:Flowers.Views"
              xmlns:vm="clr-namespace:Flowers.ViewModel"
-             Title="Сборка букета">
+             Title="Сборка букета"
+             BackgroundColor="#F2F3F7">
 
-    <StackLayout>
-        <views:HeaderView BindingContext="{Binding}" />
+    <ScrollView>
+        <StackLayout Padding="10">
+            <views:HeaderView BindingContext="{Binding}" />
 
-        <!-- Список доступных цветов для добавления в букет -->
-        <CollectionView ItemsSource="{Binding AvailableFlowers}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding Name}" FontSize="Medium" />
-                        <Label Text="{Binding Price, StringFormat='Цена: {0:C}'}" FontSize="Small" />
-                        <Button Text="Добавить"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AssemblyViewModel}}, Path=AddFlowerToBouquetCommand}"
-                                CommandParameter="{Binding .}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <!-- Доступные цветы -->
+            <StackLayout Padding="0,10" Spacing="10">
+                <Label Text="Доступные цветы" FontSize="Title" TextColor="#37474F" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding AvailableFlowers}" HeightRequest="230" 
+                                VerticalScrollBarVisibility="Always">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="10" Margin="5" BackgroundColor="White" CornerRadius="10" HasShadow="True" BorderColor="#E0E0E0">
+                                <Grid ColumnDefinitions="150,Auto, *">
+                                    <Label Grid.Column="0" Text="{Binding Name}" FontSize="16" TextColor="#37474F" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding Price, StringFormat='Цена: {0:C}'}" FontSize="14" TextColor="#78909C" VerticalOptions="Center" />
+                                    <Button Grid.Column="2" Text="+" TextColor="White" HorizontalOptions="End"
+                                            WidthRequest="40" HeightRequest="40" CornerRadius="20"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AssemblyViewModel}}, Path=AddFlowerToBouquetCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
 
-        <!-- Список выбранных цветов с количеством -->
-        <CollectionView ItemsSource="{Binding SelectedFlowers}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding Flower.Name}" />
-                        <Label Text="{Binding Quantity, StringFormat='Кол-во: {0} шт.'}" />
-                        <Label Text="{Binding Flower.Price, StringFormat=': {0:C}'}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <!-- Выбранные цветы -->
+            <StackLayout Padding="0,10,0,0" Spacing="10">
+                <Label Text="Выбранные цветы" FontSize="Title" TextColor="#37474F" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding SelectedFlowers}" HeightRequest="200" 
+                                VerticalScrollBarVisibility="Always">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="10" Margin="5" BackgroundColor="White" CornerRadius="10" HasShadow="True" BorderColor="#E0E0E0">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <Label Grid.Column="0" Text="{Binding Flower.Name}" FontSize="16" TextColor="#37474F" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding Quantity, StringFormat='Кол-во: {0} шт.'}" FontSize="14" TextColor="#78909C" VerticalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding Flower.Price, StringFormat=': {0:C}'}" FontSize="14" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
 
-        <!-- Отображение общей стоимости и кнопка добавления в корзину -->
-        <Label Text="{Binding TotalPrice, StringFormat='Итоговая стоимость: {0:C}'}" FontSize="Medium" FontAttributes="Bold" />
-        <Button Text="Добавить букет в корзину" Command="{Binding AddBouquetToCartCommand}" />
-    </StackLayout>
+            <!-- Итоговая стоимость и кнопка добавления в корзину -->
+            <StackLayout VerticalOptions="End">
+                <Label Text="{Binding TotalPrice, StringFormat='Итоговая стоимость: {0:C}'}" 
+                       FontSize="Title" FontAttributes="Bold" TextColor="#37474F" HorizontalOptions="Center" />
+                <Button Text="Добавить букет в корзину" Command="{Binding AddBouquetToCartCommand}"
+                        FontAttributes="Bold"
+                        HeightRequest="50" CornerRadius="25" Margin="0,10" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

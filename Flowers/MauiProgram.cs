@@ -31,20 +31,32 @@ namespace Flowers
             builder.Services.AddSingleton<RegisterViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<DashboardViewModel>();
+            builder.Services.AddSingleton<BouquetDetailViewModel>();
             builder.Services.AddSingleton<AssemblyViewModel>();
             builder.Services.AddSingleton<CartViewModel>();
             builder.Services.AddSingleton<ProfileViewModel>();
             builder.Services.AddSingleton<AdminPanelViewModel>();
+            builder.Services.AddSingleton<BouquetFormViewModel>();
+            builder.Services.AddSingleton<OrderDetailViewModel>();
+            builder.Services.AddSingleton<OrdersListViewModel>();
+            builder.Services.AddSingleton<AssembledListViewModel>();
+            builder.Services.AddSingleton<PaymentViewModel>();
 
             // Регистрация страниц
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<RegisterPage>();
             builder.Services.AddSingleton<DashboardPage>();
+            builder.Services.AddSingleton<BouquetDetailPage>();
             builder.Services.AddSingleton<AssemblyPage>();
             builder.Services.AddSingleton<CartPage>();
             builder.Services.AddSingleton<ProfilePage>();
             builder.Services.AddSingleton<AdminPanelPage>();
+            builder.Services.AddSingleton<BouquetFormPage>();
+            builder.Services.AddSingleton<OrderDetailPage>();
+            builder.Services.AddSingleton<OrdersListPage>();
+            builder.Services.AddSingleton<AssembledList>();
+            builder.Services.AddSingleton<PaymentPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

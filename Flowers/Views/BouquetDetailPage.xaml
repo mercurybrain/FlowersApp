@@ -1,0 +1,64 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Flowers.ViewModel"
+             x:Class="Flowers.Views.BouquetDetailPage"
+             Title="{Binding Bouquet.Name}"
+             BackgroundColor="#F2F3F7">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <!-- Изображение букета -->
+            <Frame Padding="0" HasShadow="True" CornerRadius="15">
+                <StackLayout>
+                    <Image Source="{Binding Bouquet.Icon, Converter={StaticResource ByteArrayToImageConverter}}"
+                       Aspect="AspectFill"
+                       HeightRequest="200" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Название и цена букета -->
+            <Label Text="{Binding Bouquet.Name}" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="#37474F"
+                   HorizontalOptions="Center" />
+            <Label Text="{Binding Bouquet.Price, StringFormat='Цена: {0:C}'}" 
+                   FontSize="20" 
+                   TextColor="{StaticResource Primary}" 
+                   HorizontalOptions="Center" />
+
+            <!-- Состав букета -->
+            <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                <toolkit:Expander.Header>
+                    <HorizontalStackLayout>
+                        <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                        <Label Text="Состав букета" FontSize="18" FontAttributes="Bold" TextColor="#616161" />
+                    </HorizontalStackLayout>
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <CollectionView ItemsSource="{Binding Bouquet.Flowers}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Padding="5" Spacing="10">
+                                    <Label Text="{Binding Key}" FontSize="14" TextColor="#78909C"/>
+                                    <Label Text="{Binding Value, StringFormat=': {0} шт.'}" FontSize="14" TextColor="#78909C" />
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+            <!-- Кнопка добавления в корзину -->
+            <Button Text="Добавить в корзину"
+                    Command="{Binding AddToCartCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="25" 
+                    HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

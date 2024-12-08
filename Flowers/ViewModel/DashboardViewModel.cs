@@ -7,10 +7,10 @@ using CommunityToolkit.Mvvm.Input;
 using Flowers.Abstract;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Alerts;
+using Flowers.Views;
 
 namespace Flowers.ViewModel;
 
-//[QueryProperty(nameof(User), "User")]
 public partial class DashboardViewModel : ObservableObject
 {
     [ObservableProperty] private User user;
@@ -30,14 +30,6 @@ public partial class DashboardViewModel : ObservableObject
         LoadBouquets();
     }
 
-    /*partial void OnUserChanged(User value)
-    {
-        if (User != null)
-        {
-            LoadBouquets();
-        }
-    }*/
-
     // Асинхронная загрузка букетов
     private async void LoadBouquets()
     {
@@ -54,5 +46,11 @@ public partial class DashboardViewModel : ObservableObject
     async Task AddToCart(Bouquet bouquet)
     {
         if (bouquet != null) _sharingService.Add<CartItem>("NewCartItem", new CartItem(bouquet, 1));
+    }
+    [RelayCommand]
+    async Task NavigateToDetail(Bouquet bouquet) {
+        await Shell.Current.GoToAsync($"//Dashboard/Details", true, new Dictionary<string, object> {
+                        {"Bouquet", bouquet}
+                    });
     }
 }

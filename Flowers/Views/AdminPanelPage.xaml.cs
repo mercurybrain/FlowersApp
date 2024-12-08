@@ -15,7 +15,7 @@ public partial class AdminPanelPage : ContentPage
     private void OnExpanderExpandedChanged(object sender, ExpandedChangedEventArgs e)
     {
         var expander = (Expander)sender;
-        var image = (Image)((HorizontalStackLayout)expander.Header).Children[0]; // Предполагаем, что первый элемент - это Image
+        var image = (Image)((HorizontalStackLayout)expander.Header).Children[0];
         image.Source = e.IsExpanded ? "arrow_down.png" : "arrow_right.png";
     }
 }

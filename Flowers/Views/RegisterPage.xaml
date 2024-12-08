@@ -1,5 +1,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Flowers.ViewModel"
              x:Class="Flowers.Views.RegisterPage"
              Shell.NavBarIsVisible="False"
@@ -16,9 +17,14 @@
             <Image Source="password.png" Grid.Column="0" WidthRequest="24" HeightRequest="24" Margin="5"/>
             <Entry Placeholder="Пароль" Text="{Binding Password}" IsPassword="True" MaximumWidthRequest="280" FontSize="17" Grid.Column="1"/>
         </Grid>
-        <Grid ColumnDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,Auto, *">
             <Image Source="phone.png" Grid.Column="0" WidthRequest="24" HeightRequest="24" Margin="5"/>
-            <Entry Placeholder="Телефон для связи" Text="{Binding Phone}" MaximumWidthRequest="280" FontSize="17" Grid.Column="1"/>
+            <Label Text="+7" FontSize="17" Grid.Column="1" VerticalTextAlignment="Center"/>
+            <Entry Placeholder="Телефон для связи" Text="{Binding Phone}" MaximumWidthRequest="280" FontSize="17" Grid.Column="2" Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <toolkit:MaskedBehavior Mask="(XXX)XXX-XX-XX"/>
+                </Entry.Behaviors>
+            </Entry>
         </Grid>
 
         <Button Text="Зарегистрироваться" Command="{Binding RegisterCommand}" MaximumWidthRequest="230"/>

@@ -14,9 +14,23 @@ namespace Flowers.Models
         [ObservableProperty]
         public int quantity;
 
-        public CartItem(Bouquet bouquet, int q) { 
-            this.SelectedBouquet = bouquet;
-            this.Quantity = q;
+        public CartItem(Bouquet bouquet, int quantity)
+        {
+            SelectedBouquet = bouquet;
+            Quantity = quantity;
+        }
+    }
+    public partial class CartAssembled : ObservableObject
+    {
+        public AssembledBouquets SelectedBouquet { get; set; }
+
+        [ObservableProperty]
+        public int quantity;
+
+        public CartAssembled(AssembledBouquets assembledBouquet, int quantity)
+        {
+            SelectedBouquet = assembledBouquet;
+            Quantity = quantity;
         }
     }
 }

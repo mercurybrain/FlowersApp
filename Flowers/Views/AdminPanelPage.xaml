@@ -3,127 +3,249 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Flowers.Views.AdminPanelPage"
-             Title="Административная панель">
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
+             xmlns:vm="clr-namespace:Flowers.ViewModel"
+             Title="Административная панель"
+             BackgroundColor="#F5F5F5">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#333333" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#007BFF" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
+        <Style TargetType="toolkit:Expander">
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0, 0, 1, 1">
+            <VerticalStackLayout Padding="10">
 
-            <!-- Раздел с букетами -->
-            <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
-                <toolkit:Expander.Header>
-                    <HorizontalStackLayout>
-                        <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
-                        <Label Text="Готовые букеты" FontAttributes="Bold" FontSize="Large" />
-                    </HorizontalStackLayout>
-                </toolkit:Expander.Header>
+                <!-- Раздел с букетами -->
+                <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout>
+                            <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                            <Label Text="Готовые букеты" FontAttributes="Bold" FontSize="Medium" />
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <toolkit:Expander.Content>
+                        <VerticalStackLayout>
+                            <CollectionView ItemsSource="{Binding Bouquets}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid RowSpacing="10" RowDefinitions="Auto, Auto" ColumnDefinitions="Auto, Auto" Margin="0, 15, 0, 0">
+                                            <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageConverter}}" WidthRequest="100" HeightRequest="100" Grid.Column="0"/>
+                                            <VerticalStackLayout Grid.Column="1">
+                                                <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
+                                                <Label Text="{Binding Price, StringFormat='Цена: {0:C}'}" FontSize="Small" TextColor="#4CAF50" />
+                                                <CollectionView ItemsSource="{Binding Flowers}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackLayout Orientation="Horizontal" Padding="5">
+                                                                <Label Text="{Binding Key}" FontSize="Small" />
+                                                                <Label Text="{Binding Value, StringFormat=': {0} шт.'}" FontSize="Small" TextColor="#FF5722" />
+                                                            </StackLayout>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </VerticalStackLayout>
+                                            <HorizontalStackLayout Spacing="10" Grid.Row="1" Grid.Column="1">
+                                                <Button Text="Удалить" Command="{Binding DeleteBouquetCommand}" CommandParameter="{Binding .}" BackgroundColor="#FF5252"/>
+                                                <Button Text="Изменить" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AdminPanelViewModel}}, Path=EditBouquetCommand}"
+                                                            CommandParameter="{Binding .}" BackgroundColor="#FF9800"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Text="Добавить букет" Command="{Binding AddBouquetCommand}" />
+                        </VerticalStackLayout>
+                    </toolkit:Expander.Content>
+                </toolkit:Expander>
 
-                <toolkit:Expander.Content>
-                    <VerticalStackLayout Padding="10">
-                        <CollectionView ItemsSource="{Binding Bouquets}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <HorizontalStackLayout>
-                                        <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageConverter}}" WidthRequest="50" HeightRequest="50" />
-                                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Price, StringFormat='Цена: {0:C}'}" FontSize="Small" />
-                                        <CollectionView ItemsSource="{Binding Flowers}">
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackLayout Orientation="Horizontal" Padding="5">
-                                                        <Label Text="{Binding Key}" FontSize="Small" />
-                                                        <!-- Количество цветов (значение словаря) -->
-                                                        <Label Text="{Binding Value, StringFormat=': {0} шт.'}" FontSize="Small" />
-                                                    </StackLayout>
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                        <Button Text="Удалить" Command="{Binding DeleteBouquetCommand}" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <Button Text="Добавить букет" Command="{Binding AddBouquetCommand}" />
-                    </VerticalStackLayout>
-                </toolkit:Expander.Content>
-            </toolkit:Expander>
+                <!-- Раздел с цветами -->
+                <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout>
+                            <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                            <Label Text="Цветы" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <toolkit:Expander.Content>
+                        <VerticalStackLayout Padding="10" Spacing="10">
+                            <CollectionView ItemsSource="{Binding Flowers}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10" ColumnDefinitions="*, Auto" RowDefinitions="Auto">
+                                            <Label Text="{Binding Name}" VerticalOptions="Center" Grid.Column="0" FontSize="Medium" />
+                                            <Button Text="Удалить" Command="{Binding DeleteFlowerCommand}" HorizontalOptions="End" Grid.Column="1"
+                                    BackgroundColor="#FF5252" TextColor="White" CornerRadius="5" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Text="Добавить цветок" Command="{Binding AddFlowerCommand}" BackgroundColor="#4CAF50" TextColor="White" 
+                    CornerRadius="5" Padding="10,5" />
+                        </VerticalStackLayout>
+                    </toolkit:Expander.Content>
+                </toolkit:Expander>
 
-            <!-- Раздел с цветами -->
-            <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
-                <toolkit:Expander.Header>
-                    <HorizontalStackLayout>
-                        <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
-                        <Label Text="Цветы" FontAttributes="Bold" FontSize="Large" />
-                    </HorizontalStackLayout>
-                </toolkit:Expander.Header>
-                <toolkit:Expander.Content>
-                    <VerticalStackLayout Padding="10">
-                        <CollectionView ItemsSource="{Binding Flowers}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <HorizontalStackLayout>
-                                        <Label Text="{Binding Name}" />
-                                        <Button Text="Удалить" Command="{Binding DeleteFlowerCommand}" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <Button Text="Добавить цветок" Command="{Binding AddFlowerCommand}" />
-                    </VerticalStackLayout>
-                </toolkit:Expander.Content>
-            </toolkit:Expander>
+                <!-- Раздел с заказами -->
+                <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout>
+                            <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                            <Label Text="Заказы" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <toolkit:Expander.Content>
+                        <VerticalStackLayout Padding="10" Spacing="10">
+                            <CollectionView ItemsSource="{Binding Orders}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10">
+                                            <VerticalStackLayout Spacing="5">
+                                                <Label Text="{Binding Id, StringFormat='Order ID: {0}'}" FontAttributes="Bold" FontSize="Medium" />
+                                                <Label Text="{Binding StatusText, StringFormat='Статус: {0}'}" TextColor="#2196F3" FontSize="Small" />
+                                            </VerticalStackLayout>
+                                            <HorizontalStackLayout Spacing="10" HorizontalOptions="EndAndExpand">
+                                                <Button Text="Удалить заказ" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AdminPanelViewModel}}, Path=DeleteOrderCommand}" 
+                                        CommandParameter="{Binding .}" BackgroundColor="#FF5252" TextColor="White" CornerRadius="5" />
+                                                <Button Text="Редактировать заказ" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AdminPanelViewModel}}, Path=OpenOrderModalCommand}" 
+                                        CommandParameter="{Binding .}" BackgroundColor="#FF9800" TextColor="White" CornerRadius="5" />
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Text="Добавить заказ" Command="{Binding AddTestOrderCommand}" BackgroundColor="#4CAF50" TextColor="White" 
+                    CornerRadius="5" Padding="10,5" />
+                        </VerticalStackLayout>
+                    </toolkit:Expander.Content>
+                </toolkit:Expander>
 
-            <!-- Раздел с заказами -->
-            <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
-                <toolkit:Expander.Header>
-                    <HorizontalStackLayout>
-                        <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
-                        <Label Text="Заказы" FontAttributes="Bold" FontSize="Large" />
-                    </HorizontalStackLayout>
-                </toolkit:Expander.Header>
-                <toolkit:Expander.Content>
-                    <VerticalStackLayout Padding="10">
-                        <CollectionView ItemsSource="{Binding Orders}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <VerticalStackLayout>
-                                        <Label Text="{Binding Id, StringFormat='Order ID: {0}'}" />
-                                        <Label Text="{Binding StatusText, StringFormat='Status: {0}'}" />
-                                        <Button Text="Изменить статус" Command="{Binding ChangeOrderStatusCommand}" />
-                                        <Button Text="Удалить заказ" Command="{Binding DeleteOrderCommand}" />
-                                    </VerticalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <Button Text="Добавить заказ" Command="{Binding AddTestOrderCommand}" />
-                    </VerticalStackLayout>
-                </toolkit:Expander.Content>
-            </toolkit:Expander>
+                <!-- Раздел с магазинами -->
+                <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout>
+                            <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                            <Label Text="Магазины" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <toolkit:Expander.Content>
+                        <VerticalStackLayout Padding="10" Spacing="10">
+                            <CollectionView ItemsSource="{Binding Stores}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="10" RowDefinitions="Auto, Auto">
+                                            <VerticalStackLayout Spacing="5" Grid.Row="0">
+                                                <Label Text="{Binding Name, StringFormat='Название: {0}'}" FontAttributes="Bold" FontSize="Medium" />
+                                                <Label Text="{Binding Address, StringFormat='Адрес: {0}'}" TextColor="#2196F3" FontSize="Small" />
+                                            </VerticalStackLayout>
+                                            <HorizontalStackLayout Spacing="10" HorizontalOptions="EndAndExpand" Grid.Row="1">
+                                                <Button Text="Изменить" Command="{Binding ChangeOrderStatusCommand}" BackgroundColor="#FF9800" TextColor="White" 
+                                        CornerRadius="5" HorizontalOptions="End" />
+                                                <Button Text="Удалить" Command="{Binding DeleteOrderCommand}" BackgroundColor="#FF5252" TextColor="White" 
+                                        CornerRadius="5" HorizontalOptions="End" />
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Text="Добавить заказ" Command="{Binding AddTestOrderCommand}" BackgroundColor="#4CAF50" TextColor="White" 
+                    CornerRadius="5" Padding="10,5" />
+                        </VerticalStackLayout>
+                    </toolkit:Expander.Content>
+                </toolkit:Expander>
 
-            <!-- Раздел с пользователями -->
-            <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
-                <toolkit:Expander.Header>
-                    <HorizontalStackLayout>
-                        <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
-                        <Label Text="Пользователи" FontAttributes="Bold" FontSize="Large" />
-                    </HorizontalStackLayout>
-                </toolkit:Expander.Header>
-                <toolkit:Expander.Content>
-                    <VerticalStackLayout Padding="10">
-                        <CollectionView ItemsSource="{Binding Users}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <HorizontalStackLayout>
-                                        <Label Text="{Binding Username}" />
-                                        <Button Text="Удалить" Command="{Binding DeleteUserCommand}" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </toolkit:Expander.Content>
-            </toolkit:Expander>
-            
-            <Button Text="Сбросить БД" Command="{Binding DropDBCommand}" />
-            <Button Text="Заполнить БД" Command="{Binding SeedDBCommand}" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <!-- Раздел с пользователями -->
+                <toolkit:Expander ExpandedChanged="OnExpanderExpandedChanged">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout>
+                            <Image Source="arrow_right.png" WidthRequest="20" HeightRequest="20" />
+                            <Label Text="Пользователи" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <toolkit:Expander.Content>
+                        <VerticalStackLayout Padding="10" Spacing="10">
+                            <CollectionView ItemsSource="{Binding Users}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="{Binding Username}" VerticalOptions="Center" FontSize="Medium" />
+                                            <Button Text="Удалить" Command="{Binding DeleteUserCommand}" HorizontalOptions="EndAndExpand" 
+                                    BackgroundColor="#FF5252" TextColor="White" CornerRadius="5" />
+                                        </HorizontalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Text="Добавить пользователя" Command="{Binding AddUserFromAdminCommand}" BackgroundColor="#4CAF50" TextColor="White" 
+                    CornerRadius="5" Padding="10,5" />
+                        </VerticalStackLayout>
+                    </toolkit:Expander.Content>
+                </toolkit:Expander>
+
+                <ContentView IsVisible="{Binding IsAddingUser}" 
+     AbsoluteLayout.LayoutFlags="All" 
+     AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.8, 0.5"
+     BackgroundColor="Transparent">
+                    <Frame Padding="20" CornerRadius="10" BackgroundColor="White" WidthRequest="320" HeightRequest="350" VerticalOptions="Center" HorizontalOptions="Center">
+                        <VerticalStackLayout>
+                            <Label Text="Добавить пользователя" FontSize="Large" HorizontalOptions="Center"/>
+
+                            <Entry Placeholder="Имя пользователя" Text="{Binding UserToAdd.Username}" MaximumWidthRequest="280" />
+                            <Entry Placeholder="Пароль" Text="{Binding UserToAdd.Password}" IsPassword="True" MaximumWidthRequest="280"/>
+                            <Entry Placeholder="Телефон для связи" Text="{Binding UserToAdd.Phone}" MaximumWidthRequest="280"/>
+                            <Entry Placeholder="Уровень доступа" Text="{Binding UserToAdd.Access}" MaximumWidthRequest="280"/>
+                            <Entry Placeholder="Адрес по умолчанию" Text="{Binding UserToAdd.AddressDefault}" MaximumWidthRequest="280"/>
+
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Fill" Margin="0, 10, 0, 0">
+                                <Button Text="Добавить" Command="{Binding AddUserCommand}" MaximumWidthRequest="230"/>
+                                <Button Text="Отмена"
+                    Command="{Binding CloseModalsCommand}"
+                    BackgroundColor="#FF5252"
+                    TextColor="White"
+                    HorizontalOptions="StartAndExpand" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </ContentView>
+                <ContentView IsVisible="{Binding IsEditingOrder}" 
+     AbsoluteLayout.LayoutFlags="All" 
+     AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.8, 0.5"
+     BackgroundColor="Transparent">
+                    <Frame Padding="20" CornerRadius="10" BackgroundColor="White" WidthRequest="320" HeightRequest="350" VerticalOptions="Center" HorizontalOptions="Center">
+                        <VerticalStackLayout>
+                            <Label Text="Редактирование заказа" FontSize="Large" HorizontalOptions="Center"/>
+
+                            <Entry Placeholder="Имя пользователя" Text="{Binding SelectedOrder.Username}" MaximumWidthRequest="280" />
+                            <Entry Placeholder="Адрес" Text="{Binding SelectedOrder.DeliveryAddress}" MaximumWidthRequest="280"/>
+                            <Entry Placeholder="Общая стоимость" Text="{Binding SelectedOrder.TotalPrice}" MaximumWidthRequest="280"/>
+                            <DatePicker Date="{Binding SelectedOrder.OrderDateOnly, Mode=TwoWay}" MaximumWidthRequest="280" />
+                            <TimePicker Time="{Binding SelectedOrder.OrderTime, Mode=TwoWay}" MaximumWidthRequest="280" />
+
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Fill" Margin="0, 10, 0, 0">
+                                <Button Text="Сохранить" Command="{Binding EditOrderCommand}" MaximumWidthRequest="230"/>
+                                <Button Text="Отмена"
+            Command="{Binding CloseModalsCommand}"
+            BackgroundColor="#FF5252"
+            TextColor="White"
+            HorizontalOptions="StartAndExpand" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </ContentView>
+                <HorizontalStackLayout Spacing="10" VerticalOptions="End" HorizontalOptions="Center" Margin="0, 370, 0, 0">
+                    <Button Text="Сбросить БД" Command="{Binding DropDBCommand}" BackgroundColor="#FF5722" />
+                    <Button Text="Заполнить БД" Command="{Binding SeedDBCommand}" BackgroundColor="#4CAF50" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+    </AbsoluteLayout>
 </ContentPage>

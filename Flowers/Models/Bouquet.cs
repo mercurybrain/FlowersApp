@@ -1,10 +1,11 @@
 ﻿using SQLite;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using SQLiteNetExtensions.Attributes;
+using Flowers.Abstract;
 
 namespace Flowers.Models
 {
-    public class Bouquet
+    public class Bouquet : IBouquet
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -15,6 +16,12 @@ namespace Flowers.Models
         public float Price { get; set; }
 
         public byte[] Icon { get; set; }
+
+        [ForeignKey(typeof(Store))]
+        public int StoreId { get; set; }
+
+        [Ignore]
+        public Store Store { get; set; }
 
         // Строка для хранения цветов и их количества в формате JSON
         public string FlowerData { get; set; }

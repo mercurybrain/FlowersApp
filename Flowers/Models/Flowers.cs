@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Flowers.Models
 {
@@ -7,9 +8,12 @@ namespace Flowers.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [Unique, MaxLength(32)]
+        [MaxLength(32)]
         public string Name { get; set; }
 
         public float Price { get; set; }
+
+        [ForeignKey(typeof(Store))]
+        public int StoreId { get; set; }
     }
 }

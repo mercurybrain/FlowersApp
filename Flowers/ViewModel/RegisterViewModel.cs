@@ -9,6 +9,7 @@ using CommunityToolkit.Maui.Alerts;
 using Microsoft.Maui;
 using static System.Net.Mime.MediaTypeNames;
 using SQLite;
+using System.Text.RegularExpressions;
 
 namespace Flowers.ViewModel
 {
@@ -42,14 +43,24 @@ namespace Flowers.ViewModel
                     await toast.Show();
                     return;
                 }
+                if (!Regex.IsMatch(Phone, @"^\(\d{3}\)\d{3}-\d{2}-\d{2}$"))
+                {
+                    await Toast.Make("Введите корректный номер телефона!", ToastDuration.Short, 16).Show();
+                    return;
+                }
                 else
                 {
+                    int generatedAcc = ProjectTools.GenerateRandomNumber();
+                    if (Username == "Admin") {
+                        generatedAcc = 777;
+                    }
                     var user = new User
                     {
                         Username = Username,
                         Password = Encoder.ComputeHash(Password, "SHA512", null),
-                        Phone = Phone,
-                        AddressDefault = "Не указан"
+                        Phone = "+7" + Phone,
+                        AddressDefault = "Не указан",
+                        Access = generatedAcc
                     };
 
                     // Сохранение пользователя в базе данных

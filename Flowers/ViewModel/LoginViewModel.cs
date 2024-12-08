@@ -8,6 +8,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Alerts;
 using Flowers.Views;
 using Microsoft.Maui.Controls;
+using System.Text.RegularExpressions;
 
 namespace Flowers.ViewModel
 {
@@ -26,7 +27,6 @@ namespace Flowers.ViewModel
 
         private async void NavigateToRegister()
         {
-            // Навигация на другую страницу через Shell
             await Shell.Current.GoToAsync("RegisterPage");
         }
 
@@ -52,6 +52,10 @@ namespace Flowers.ViewModel
                     await toast.Show();
                     return;
                 }
+                if (Username.StartsWith('+') && !Regex.IsMatch(Username, @"^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$")) {
+                    await Toast.Make("Некорректный номер телефона!", ToastDuration.Short, 16).Show();
+                    return;
+                }
 
                 var user = await _databaseService.GetUserAsync(Username);
 
@@ -63,9 +67,6 @@ namespace Flowers.ViewModel
                     ((AppShell)Shell.Current).OnUserLoggedIn();
                     await Shell.Current.GoToAsync("//FlyoutMain/Dashboard", true);
                     Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-                    /*await Shell.Current.GoToAsync($"//Dashboard", true, new Dictionary<string, object> {
-                        {"User", user}
-                    });*/
                 }
                 else
                 {

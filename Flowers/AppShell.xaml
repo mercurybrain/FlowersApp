@@ -14,19 +14,27 @@
         Route="LoginPage" 
         Shell.FlyoutItemIsVisible="False"/>
 
+    
+
     <FlyoutItem Title="Главная" Route="FlyoutMain">
-        <Tab Title="Готовые букеты" Route="Dashboard">
+        <Tab Title="Готовые букеты" Route="Dashboard" Icon="bouquet.png">
             <ShellContent ContentTemplate="{DataTemplate views:DashboardPage}" />
         </Tab>
-        <Tab Title="Сборка букета" Route="Assembly">
+        <Tab Title="Сборка букета" Route="Assembly" Icon="assembly.png">
             <ShellContent ContentTemplate="{DataTemplate views:AssemblyPage}" />
         </Tab>
-        <Tab Title="Корзина" Route="Cart">
+        <Tab Title="Корзина" Route="Cart" Icon="cart.png">
             <ShellContent ContentTemplate="{DataTemplate views:CartPage}" />
         </Tab>
     </FlyoutItem>
     <FlyoutItem Title="Профиль" Route="ProfilePage">
         <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:ProfilePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Собранные букеты" Route="AssembledList">
+        <ShellContent ContentTemplate="{DataTemplate views:AssembledList}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Активные заказы" Route="Orders" Shell.FlyoutItemIsVisible="False">
+        <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:OrdersListPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Административная панель" Route="AdminPanel" Shell.FlyoutItemIsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate views:AdminPanelPage}" />
