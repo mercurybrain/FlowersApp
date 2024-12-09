@@ -110,7 +110,10 @@ namespace Flowers.Services
         }
         public async Task<int> DeleteAssembled(AssembledBouquets bouquet) { 
             return await _database.DeleteAsync(bouquet);
-        } 
+        }
+        public async Task<int> DeleteBouquet(Bouquet bouquet) { 
+            return await _database.DeleteAsync(bouquet);
+        }
         public async Task<List<Bouquet>> GetBouquetsByIdsAsync(List<int> ids)
         {
             return await _database.Table<Bouquet>().Where(b => ids.Contains(b.Id)).ToListAsync();
@@ -133,6 +136,9 @@ namespace Flowers.Services
         public async Task<int> UpdateBouquetAsync(Bouquet bouquet)
         {
             return await _database.UpdateAsync(bouquet);
+        }
+        public async Task<int> UpdateStoreAsync(Store store) { 
+            return await _database.UpdateAsync(store);
         }
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -167,6 +173,9 @@ namespace Flowers.Services
         public Task<int> DeleteOrderAsync(Order order)
         {
             return _database.DeleteAsync(order);
+        }
+        public Task<int> DeleteStoreAsync(Store store) {
+            return _database.DeleteAsync(store);
         }
 
         public async Task<List<Store>> GetAllStoresAsync()

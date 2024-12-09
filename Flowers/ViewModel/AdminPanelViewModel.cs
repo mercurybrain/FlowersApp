@@ -25,6 +25,9 @@ namespace Flowers.ViewModel
 
         [ObservableProperty] private Order selectedOrder;
         [ObservableProperty] private bool isEditingOrder = false;
+
+        [ObservableProperty] private bool isEditingStore = false;
+        [ObservableProperty] private Store selectedStore;
         public AdminPanelViewModel(DatabaseService databaseService)
         {
             _databaseService = databaseService;
@@ -59,6 +62,7 @@ namespace Flowers.ViewModel
         private void CloseModals() { 
             IsAddingUser = false;
             IsEditingOrder = false;
+            IsEditingStore = false;
         }
 
         [RelayCommand]
@@ -84,7 +88,7 @@ namespace Flowers.ViewModel
             if (bouquet != null)
             {
                 Bouquets.Remove(bouquet);
-                await _databaseService.AddBouquetAsync(bouquet);
+                await _databaseService.DeleteBouquet(bouquet);
             }
         }
 
@@ -152,8 +156,28 @@ namespace Flowers.ViewModel
         {
             if (SelectedOrder == null) return;
             await _databaseService.UpdateOrderAsync(SelectedOrder);
-            IsEditingOrder = false;
+            IsEditingStore = false;
             LoadData();
+        }
+        [RelayCommand]
+        private async Task OpenEditStore(Store store) {
+            IsEditingStore = true;
+            SelectedStore = store;
+        }
+        [RelayCommand]
+        private async Task EditStore() {
+            if (SelectedStore == null) return;
+            await _databaseService.UpdateStoreAsync(SelectedStore);
+            IsEditingStore = false;
+            LoadData();
+        }
+        [RelayCommand]
+        private async Task DeleteStore(Store store) {
+            if (store != null)
+            {
+                Stores.Remove(store);
+                await _databaseService.DeleteStoreAsync(store);
+            }
         }
     }
 }

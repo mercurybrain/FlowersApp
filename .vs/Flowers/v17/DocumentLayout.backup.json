@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\URGE\\source\\repos\\Flowers\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\viewmodel\\paymentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\viewmodel\\paymentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\views\\adminpanelpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\views\\adminpanelpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\views\\paymentpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\views\\paymentpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\viewmodel\\adminpanelviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\viewmodel\\adminpanelviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\viewmodel\\cartviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\viewmodel\\cartviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|c:\\users\\urge\\source\\repos\\flowers\\flowers\\models\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC5AF5FA-13FA-4CE1-B733-1EBB56D1FC09}|Flowers\\Flowers.csproj|solutionrelative:flowers\\models\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PaymentPage.xaml",
-              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Views\\PaymentPage.xaml",
-              "RelativeDocumentMoniker": "Flowers\\Views\\PaymentPage.xaml",
-              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Views\\PaymentPage.xaml",
-              "RelativeToolTip": "Flowers\\Views\\PaymentPage.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-12-07T17:16:20.223Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PaymentViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\PaymentViewModel.cs",
-              "RelativeDocumentMoniker": "Flowers\\ViewModel\\PaymentViewModel.cs",
-              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\PaymentViewModel.cs",
-              "RelativeToolTip": "Flowers\\ViewModel\\PaymentViewModel.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAgwD8AAAAnAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "Store.cs",
+              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Models\\Store.cs",
+              "RelativeDocumentMoniker": "Flowers\\Models\\Store.cs",
+              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Models\\Store.cs",
+              "RelativeToolTip": "Flowers\\Models\\Store.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-07T17:16:43.86Z",
+              "WhenOpened": "2024-12-09T16:25:24.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CartViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\CartViewModel.cs",
-              "RelativeDocumentMoniker": "Flowers\\ViewModel\\CartViewModel.cs",
-              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\CartViewModel.cs",
-              "RelativeToolTip": "Flowers\\ViewModel\\CartViewModel.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAmwIYAAAATAAAAAAAAAA==",
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Services\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "Flowers\\Services\\DatabaseService.cs",
+              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Services\\DatabaseService.cs",
+              "RelativeToolTip": "Flowers\\Services\\DatabaseService.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAIAwwLEAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-07T17:22:40.087Z",
+              "WhenOpened": "2024-12-09T16:18:37.873Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminPanelPage.xaml",
+              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Views\\AdminPanelPage.xaml",
+              "RelativeDocumentMoniker": "Flowers\\Views\\AdminPanelPage.xaml",
+              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\Views\\AdminPanelPage.xaml",
+              "RelativeToolTip": "Flowers\\Views\\AdminPanelPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-09T16:18:12.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminPanelViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\AdminPanelViewModel.cs",
+              "RelativeDocumentMoniker": "Flowers\\ViewModel\\AdminPanelViewModel.cs",
+              "ToolTip": "C:\\Users\\URGE\\source\\repos\\Flowers\\Flowers\\ViewModel\\AdminPanelViewModel.cs",
+              "RelativeToolTip": "Flowers\\ViewModel\\AdminPanelViewModel.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAAAKIAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-09T16:18:10.857Z",
               "EditorCaption": ""
             }
           ]
