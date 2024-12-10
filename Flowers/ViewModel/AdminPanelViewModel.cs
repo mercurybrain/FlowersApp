@@ -28,6 +28,12 @@ namespace Flowers.ViewModel
 
         [ObservableProperty] private bool isEditingStore = false;
         [ObservableProperty] private Store selectedStore;
+
+        [ObservableProperty] private bool isAddingFlower = false;
+        [ObservableProperty] private Models.Flowers flower = new Models.Flowers();
+
+        [ObservableProperty] private bool isEditingFlower = false;
+        [ObservableProperty] private Models.Flowers selectedFlower;
         public AdminPanelViewModel(DatabaseService databaseService)
         {
             _databaseService = databaseService;
@@ -42,11 +48,14 @@ namespace Flowers.ViewModel
 
         private async void LoadData()
         {
+            if (Stores == null) Stores = new ObservableCollection<Store>();
+            Stores.Clear();
             Bouquets = new ObservableCollection<Bouquet>(await _databaseService.GetAllBouquetsAsync());
             Users = new ObservableCollection<User>(await _databaseService.GetAllUsersAsync());
             Flowers = new ObservableCollection<Models.Flowers>(await _databaseService.GetAllFlowersAsync());
             Orders = new ObservableCollection<Order>(await _databaseService.GetAllOrdersAsync());
-            Stores = new ObservableCollection<Store>(await _databaseService.GetAllStoresAsync());
+
+            Stores = new ObservableCollection<Store>((await _databaseService.GetAllStoresAsync()).Distinct());
         }
 
         [RelayCommand]
@@ -63,6 +72,8 @@ namespace Flowers.ViewModel
             IsAddingUser = false;
             IsEditingOrder = false;
             IsEditingStore = false;
+            IsAddingFlower = false;
+            IsEditingFlower = false;
         }
 
         [RelayCommand]
@@ -89,6 +100,7 @@ namespace Flowers.ViewModel
             {
                 Bouquets.Remove(bouquet);
                 await _databaseService.DeleteBouquet(bouquet);
+                _databaseService.NotifyDataUpdated();
             }
         }
 
@@ -103,7 +115,7 @@ namespace Flowers.ViewModel
             await _databaseService.SaveUserAsync(UserToAdd);
 
             await Toast.Make("Пользователь с именем '" + UserToAdd.Username + "' добавлен", ToastDuration.Short, 16).Show();
-            LoadData();
+            _databaseService.NotifyDataUpdated();
         }
         [RelayCommand]
         private async Task DeleteUser(User user)
@@ -112,17 +124,38 @@ namespace Flowers.ViewModel
             {
                 Users.Remove(user);
                 await _databaseService.DeleteUserAsync(user);
+                _databaseService.NotifyDataUpdated();
             }
         }
 
         [RelayCommand]
-        private async Task AddFlower(Models.Flowers flower)
+        private async Task OpenAddFlower(Models.Flowers flower)
         {
-            if (flower != null)
-            {
-                Flowers.Remove(flower);
-                await _databaseService.AddFlowerAsync(flower);
-            }
+            IsAddingFlower = true;
+            Flower = flower;
+        }
+        [RelayCommand]
+        private async Task AddFlower() {
+            if (Flower == null) return;
+            Flower.StoreId = SelectedStore.Id;
+            await _databaseService.AddFlowerAsync(Flower);
+            IsAddingFlower = false;
+            _databaseService.NotifyDataUpdated();
+        }
+        [RelayCommand]
+        private async Task OpenEditFlower(Models.Flowers flower)
+        {
+            IsEditingFlower = true;
+            SelectedFlower = flower;
+        }
+        [RelayCommand]
+        private async Task EditFlower()
+        {
+            if (Flower == null) return;
+            SelectedFlower.StoreId = SelectedStore.Id;
+            await _databaseService.UpdateFlowerAsync(SelectedFlower);
+            IsEditingFlower = false;
+            _databaseService.NotifyDataUpdated();
         }
 
         [RelayCommand]
@@ -132,6 +165,7 @@ namespace Flowers.ViewModel
             {
                 Flowers.Remove(flower);
                 await _databaseService.DeleteFlowerAsync(flower);
+                _databaseService.NotifyDataUpdated();
             }
         }
 
@@ -144,6 +178,7 @@ namespace Flowers.ViewModel
                 await _databaseService.DeleteOrderAsync(order);
 
                 OnPropertyChanged(nameof(Orders));
+                _databaseService.NotifyDataUpdated();
             }
         }
         [RelayCommand]
@@ -157,7 +192,7 @@ namespace Flowers.ViewModel
             if (SelectedOrder == null) return;
             await _databaseService.UpdateOrderAsync(SelectedOrder);
             IsEditingStore = false;
-            LoadData();
+            _databaseService.NotifyDataUpdated();
         }
         [RelayCommand]
         private async Task OpenEditStore(Store store) {
@@ -169,7 +204,7 @@ namespace Flowers.ViewModel
             if (SelectedStore == null) return;
             await _databaseService.UpdateStoreAsync(SelectedStore);
             IsEditingStore = false;
-            LoadData();
+            _databaseService.NotifyDataUpdated();
         }
         [RelayCommand]
         private async Task DeleteStore(Store store) {
@@ -177,6 +212,7 @@ namespace Flowers.ViewModel
             {
                 Stores.Remove(store);
                 await _databaseService.DeleteStoreAsync(store);
+                _databaseService.NotifyDataUpdated();
             }
         }
     }

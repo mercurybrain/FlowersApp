@@ -151,6 +151,10 @@ namespace Flowers.Services
         public async Task<int> AddFlowerAsync(Models.Flowers flower) {
             return await _database.InsertAsync(flower);
         }
+        public async Task<int> UpdateFlowerAsync(Models.Flowers flower)
+        {
+            return await _database.UpdateAsync(flower);
+        }
         public async Task<int> DeleteFlowerAsync(Models.Flowers flower)
         {
             return await _database.DeleteAsync(flower);

@@ -21,5 +21,16 @@ namespace Flowers.Models
 
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<Bouquet> Bouquets { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not Store other) return false;
+            return Id == other.Id; // Сравнение по уникальному идентификатору
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

@@ -55,7 +55,10 @@ public partial class PaymentViewModel : ObservableObject
             await Toast.Make("Заполните данные карты", ToastDuration.Short, 16).Show();
             return;
         }
-
+        if (!IsDateValid(ExpiryDate)) {
+            await Toast.Make("Срок действия карты истёк", ToastDuration.Short, 16).Show();
+            return;
+        }
         // Логика отправки СМС
 
         await Task.Delay(1000);
@@ -89,5 +92,27 @@ public partial class PaymentViewModel : ObservableObject
     public async Task Cancel()
     {
         await Shell.Current.GoToAsync("..");
+    }
+    public static bool IsDateValid(string expiryDate)
+    {
+        if (string.IsNullOrWhiteSpace(expiryDate))
+            return false;
+        var parts = expiryDate.Split('/');
+        if (parts.Length != 2)
+            return false;
+        if (!int.TryParse(parts[0], out int month) || !int.TryParse(parts[1], out int year))
+            return false;
+        if (month < 1 || month > 12)
+            return false;
+        year += year < 100 ? 2000 : 0;
+
+        var now = DateTime.Now;
+        var currentYear = now.Year;
+        var currentMonth = now.Month;
+
+        if (year < currentYear || (year == currentYear && month < currentMonth))
+            return false;
+
+        return true;
     }
 }
